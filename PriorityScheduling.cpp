@@ -1,0 +1,86 @@
+#include <iostream>
+#include <algorithm>
+
+using namespace std;
+
+int main() {
+
+    int n;
+
+    cout << "Enter number of processes: ";
+    cin >> n;
+
+    int burst[100], process[100], priority[100];
+    int waiting[100], turnaround[100];
+
+    // Input
+    for (int i = 0; i < n; i++) {
+
+        process[i] = i + 1;
+
+        cout << "Enter Burst Time for P" << i + 1 << ": ";
+        cin >> burst[i];
+
+        cout << "Enter Priority for P" << i + 1 << ": ";
+        cin >> priority[i];
+    }
+
+
+    for (int i = 0; i < n - 1; i++) {
+
+        for (int j = i + 1; j < n; j++) {
+
+            if (priority[i] > priority[j]) {
+
+                swap(priority[i], priority[j]);
+                swap(burst[i], burst[j]);
+                swap(process[i], process[j]);
+            }
+        }
+    }
+
+    waiting[0] = 0;
+
+    for (int i = 1; i < n; i++) {
+
+        waiting[i] = waiting[i - 1] + burst[i - 1];
+    }
+
+    // Calculate Turnaround Time
+    for (int i = 0; i < n; i++) {
+
+        turnaround[i] = waiting[i] + burst[i];
+    }
+
+    cout << "\nExecution Order: ";
+
+    for (int i = 0; i < n; i++) {
+
+        cout << "P" << process[i] << " ";
+    }
+
+    int totalWaiting = 0;
+    int totalTurnaround = 0;
+
+    cout << "\n\nProcess\tPriority\tBurst\tWaiting\tTurnaround\n";
+
+    for (int i = 0; i < n; i++) {
+
+        cout << "P" << process[i] << "\t"
+             << priority[i] << "\t\t"
+             << burst[i] << "\t"
+             << waiting[i] << "\t"
+             << turnaround[i] << endl;
+
+        totalWaiting += waiting[i];
+        totalTurnaround += turnaround[i];
+    }
+
+    cout << "\nAverage Waiting Time: "
+         << (float)totalWaiting / n;
+
+    cout << "\nAverage Turnaround Time: "
+         << (float)totalTurnaround / n;
+
+    return 0;
+}
