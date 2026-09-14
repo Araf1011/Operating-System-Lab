@@ -1,6 +1,4 @@
-#include <iostream>
-#include <algorithm>
-
+#include <bits/stdc++.h>
 using namespace std;
 
 int main() {
@@ -13,7 +11,6 @@ int main() {
     int burst[100], process[100], priority[100];
     int waiting[100], turnaround[100];
 
-    // Input
     for (int i = 0; i < n; i++) {
 
         process[i] = i + 1;
@@ -46,7 +43,6 @@ int main() {
         waiting[i] = waiting[i - 1] + burst[i - 1];
     }
 
-    // Calculate Turnaround Time
     for (int i = 0; i < n; i++) {
 
         turnaround[i] = waiting[i] + burst[i];
